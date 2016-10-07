@@ -1,0 +1,10 @@
+ru:
+  admin:
+    actions:
+      index_edit:
+        menu:       "Таблица редактирования"
+        breadcrumb: "Таблица редактирования"
+        error:      "Ошибка"
+        save_error: "Ошибка при сохранении"
+        success:    "Успешно"
+        title:      "Таблица редактирования"

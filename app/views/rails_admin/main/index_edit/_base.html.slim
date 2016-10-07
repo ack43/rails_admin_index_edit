@@ -1,0 +1,7 @@
+.value_block= field.pretty_value.blank? ? ' - ' : field.pretty_value
+.input_block.hidden
+  - if field.association? and field.type == :belongs_to_association
+    = render(partial: "rails_admin/main/index_edit/form_filtering_select", locals: {field: field, form: form})
+    
+  - else
+    = render(partial: "rails_admin/main/index_edit/form_field", locals: {field: field, form: form})
