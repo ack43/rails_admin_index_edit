@@ -102,7 +102,7 @@
           -# - if @other_left_link ||= other_left && index_path(params.except('set').merge(params[:set].to_i != 1 ? {set: (params[:set].to_i - 1)} : {}))
             %td.other.left= link_to "...", @other_left_link, class: 'pjax'
           - properties.map{ |property| property.bind(:object, object) }.each do |property|
-            = render partial: "rails_admin/main/index_edit_cell.html", locals: {field: property, form: form}
+            = render partial: "rails_admin/main/index_edit_cell", locals: {field: property, form: form}
           -# - if @other_right_link ||= other_right && index_path(params.merge(set: (params[:set].to_i + 1)))
             %td.other.right= link_to "...", @other_right_link, class: 'pjax'
           -# %td.last.links

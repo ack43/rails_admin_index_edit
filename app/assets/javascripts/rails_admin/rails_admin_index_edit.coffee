@@ -17,14 +17,23 @@ $(document).delegate "form#index_edit_form tr[data-object-id] td .value_block", 
 
 
 $(document).delegate "form#index_edit_form tr[data-object-id] td :input", "blur", (e)->
-  cell = $(e.currentTarget).closest('td')
+  input = $(e.currentTarget)
+  cell = input.closest('td')
   form = $("form#index_edit_form")
   data = form.find(':input:not(.non_serializeable)').serialize()
 
-  unless $(e.currentTarget).val() == $(e.currentTarget).data('old-value')
-    $.post form.attr('action'), data, (resp)->
+  unless input.val() == input.data('old-value')
+    input.attr('readonly', 'readonly')
+
+    $.post form.attr('action'), data, (resp, status_code, xhr)->
       _content = $(resp).find('#cell_content')
-      cell.html(_content.html()).title(_content.attr('title'))
+      cell.html(_content.html()).attr('title', _content.attr('title'))
+
+    .fail (resp, status_code, xhr)->
+      cell.find('.value_block').click()
+
+    .always (resp, status_code, xhr)->
+      input.removeAttr('readonly')
 
   $(".value_block", form).show()
   $(".input_block", form).hide().addClass('hidden')
@@ -32,8 +41,9 @@ $(document).delegate "form#index_edit_form tr[data-object-id] td :input", "blur"
 
 
 $(document).delegate "form#index_edit_form tr[data-object-id] td :input", "keydown keyup", (e)->
+  input = $(e.currentTarget)
   if e.which == 13
-    $(e.currentTarget).blur()
+    input.blur()
   else
     if e.which == 27
-      $(e.currentTarget).val($(e.currentTarget).data('old-value')).blur()
+      input.val(input.data('old-value')).blur()
