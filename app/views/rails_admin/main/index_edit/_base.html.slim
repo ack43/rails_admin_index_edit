@@ -1,7 +1,19 @@
 .value_block= field.pretty_value.blank? ? ' - ' : field.pretty_value
-.input_block.hidden
+
+/ - unless field.type == 'toggle'
+- template_name = "rails_admin/main/index_edit/_#{@fields[field.name]}"
+- partial_name = "rails_admin/main/index_edit/#{@fields[field.name]}"
+
+- input_block_content = ""
+- unless field.class.name == "RailsAdmin::Config::Fields::Types::Toggle"
   - if field.association? and field.type == :belongs_to_association
-    = render(partial: "rails_admin/main/index_edit/form_filtering_select", locals: {field: field, form: form})
+    - input_block_content = render(partial: "rails_admin/main/index_edit/form_filtering_select", locals: {field: field, form: form})
     
+  - elsif @fields[field.name] and template_name and lookup_context.template_exists?(template_name)
+    - input_block_content =  render(partial: partial_name, locals: {field: field, form: form})
+
   - else
-    = render(partial: "rails_admin/main/index_edit/form_field", locals: {field: field, form: form})
+    - input_block_content = render(partial: "rails_admin/main/index_edit/form_field", locals: {field: field, form: form})
+
+- unless input_block_content.blank?
+  .input_block.hidden= input_block_content

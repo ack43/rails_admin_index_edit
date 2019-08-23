@@ -1,8 +1,9 @@
-- if form
-  td{class="#{field.css_class} #{field.type_css_class}" title=strip_tags(field.pretty_value.to_s)}
-    = render(partial: "rails_admin/main/index_edit/base", locals: {field: field, form: form})
-
-- else
-  = rails_admin_form_for(@object, url: '') do |form|
-    #cell_content(title=strip_tags(field.pretty_value.to_s))
+- if field
+  - if form
+    td{class="#{field.css_class} #{field.type_css_class}" title=strip_tags(field.pretty_value.to_s)}
       = render(partial: "rails_admin/main/index_edit/base", locals: {field: field, form: form})
+
+  - else
+    = rails_admin_form_for(@object, url: '') do |form|
+      #cell_content(title=strip_tags(field.pretty_value.to_s))
+        = render(partial: "rails_admin/main/index_edit/base", locals: {field: field, form: form})

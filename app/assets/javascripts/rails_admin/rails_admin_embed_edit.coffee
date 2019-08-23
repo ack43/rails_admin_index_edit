@@ -1,4 +1,4 @@
-$(document).delegate "form#index_edit_form tr[data-object-id] td .value_block", "click", (e)->
+$(document).delegate "form#embed_edit_form tr[data-object-id] td .value_block", "click", (e)->
   e.preventDefault()
   form = $("form#index_edit_form")
   value_block = $(e.currentTarget)
@@ -17,12 +17,11 @@ $(document).delegate "form#index_edit_form tr[data-object-id] td .value_block", 
 
 
 
-$(document).delegate "form#index_edit_form tr[data-object-id] td .input_block :input", "blur", (e)->
+$(document).delegate "form#embed_edit_form tr[data-object-id] td .input_block :input", "blur", (e)->
   input = $(e.currentTarget)
   cell = input.closest('td')
-  form = $("form#index_edit_form")
+  form = $("form#embed_edit_form")
   data = form.find(':input:not(.non_serializeable)').serialize()
-  # alert(111)
 
   unless input.val() == input.data('old-value')
     input.attr('readonly', 'readonly')
@@ -32,7 +31,7 @@ $(document).delegate "form#index_edit_form tr[data-object-id] td .input_block :i
       cell.html(_content.html()).attr('title', _content.attr('title'))
 
     .fail (resp, status_code, xhr)->
-      cell.find('.value_blockvalue_blockvalue_blockvalue_block').click()
+      cell.find('.value_blockvalue_blockvalue_block').click()
 
     .always (resp, status_code, xhr)->
       input.removeAttr('readonly')
@@ -42,10 +41,16 @@ $(document).delegate "form#index_edit_form tr[data-object-id] td .input_block :i
   $(':input', form.find('table')).addClass('non_serializeable')
 
 
-$(document).delegate "form#index_edit_form tr[data-object-id] td .input_block :input", "keydown keyup", (e)->
+
+$(document).delegate "form#embed_edit_form tr[data-object-id] td .input_block :input", "keydown keyup", (e)->
   input = $(e.currentTarget)
   if e.which == 13
     input.blur()
   else
     if e.which == 27
       input.val(input.data('old-value')).blur()
+
+
+
+$(document).on "ajax:complete", "#embed_edit_add_link", (e, xhr)->
+  $("#embed_edit_table").html(xhr.responseText)

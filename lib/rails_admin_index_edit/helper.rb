@@ -1,9 +1,9 @@
-module RailsAdminIndexEdit
-  module Helper
+# module RailsAdminIndexEdit
+#   module Helper
 
-    def index_edit_fields
-      @conf.options[:fields]
-    end
+#     def index_edit_fields
+#       @conf.options[:fields]
+#     end
     
-  end
-end
+#   end
+# end

@@ -8,3 +8,11 @@ ru:
         save_error: "Ошибка при сохранении"
         success:    "Успешно"
         title:      "Таблица редактирования"
+
+      embed_edit:
+        menu:       "EmbedEdit"
+        breadcrumb: "EmbedEdit"
+        error:      "Ошибка"
+        save_error: "Ошибка при сохранении"
+        success:    "Успешно"
+        title:      "EmbedEdit"

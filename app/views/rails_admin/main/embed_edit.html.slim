@@ -1,0 +1,16 @@
+= stylesheet_link_tag 'rails_admin/rails_admin_embed_edit'
+= javascript_include_tag 'rails_admin/rails_admin_embed_edit'
+
+/ p= @embeds.inspect
+hr
+- @embeds.each do |embed, name|
+  - if embed.to_s == @embed_name.to_s
+    span.selected= name
+  - else
+    = link_to name, embed_edit_path(model_name: @abstract_model.to_param, embed: embed), class: 'pjax'
+
+#embed_edit_table
+  = render partial: "rails_admin/main/embed_edit_table"
+
+- unless @embed_name.blank?
+  = link_to "Добавить", embed_edit_path(model_name: @abstract_model.to_param, embed: @embed_name), data: {method: :put, remote: true, target: "#embed_edit_table"}, id: 'embed_edit_add_link'
