@@ -49,3 +49,8 @@ $(document).delegate "form#index_edit_form tr[data-object-id] td .input_block :i
   else
     if e.which == 27
       input.val(input.data('old-value')).blur()
+
+
+
+$(document).on "ajax:complete", "#index_edit_add_link", (e, xhr)->
+  $(e.currentTarget.dataset.target).html(xhr.responseText)

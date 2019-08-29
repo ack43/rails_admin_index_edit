@@ -78,10 +78,25 @@ module RailsAdmin
                   end
                 end
                 render partial: "rails_admin/main/index_edit_cell", locals: {field: field, form: nil}, status: status
-
+                
               else
                 render nothing: true
               end
+
+              
+            elsif request.put?
+              @object = @model.new(@conf.options[:default_new_params])
+              @object.save! if @object
+
+              @objects = list_entries(@model_config, :index, nil, nil)
+              if @objects 
+                if @objects.first and @objects.first.respond_to?(:lft)
+                  @objects.sort! { |a,b| a.lft <=> b.lft } 
+                elsif @objects.first and @objects.first.respond_to?(:c_at)
+                  @objects.sort! { |a,b| a.c_at <=> b.c_at } 
+                end
+              end
+              render partial: "rails_admin/main/index_edit_table", layout: false
 
             end
           end
@@ -92,7 +107,7 @@ module RailsAdmin
         end
 
         register_instance_option :http_methods do
-          [:get, :post]
+          [:get, :post, :put]
         end
 
         def restricted_fields
@@ -200,11 +215,15 @@ module RailsAdmin
               
               elsif request.put?
                 @objects = @parent.try(@embed_name)
-                @objects.create! if @objects
+                @objects.create!(@conf.options[:default_new_params][@embed_name] || {}) if @objects
 
-                # @objects = @parent.try(@embed_name)
-                @objects.sort! { |a,b| a.order <=> b.order } if @objects and @objects.first and @objects.first.respond_to?(:order)
-                # render action: @action.template_name, layout: false
+                if @objects 
+                  if @objects.first and @objects.first.respond_to?(:order)
+                    @objects.sort! { |a,b| a.order <=> b.order } 
+                  elsif @objects.first and @objects.first.respond_to?(:c_at)
+                    @objects.sort! { |a,b| a.c_at <=> b.c_at } 
+                  end
+                end
                 render partial: "rails_admin/main/embed_edit_table", layout: false
 
               end # if request.get?
@@ -215,9 +234,9 @@ module RailsAdmin
 
 
 
-        register_instance_option :http_methods do
-          [:get, :post, :put]
-        end
+        # register_instance_option :http_methods do
+        #   [:get, :post, :put]
+        # end
         
       end
     end

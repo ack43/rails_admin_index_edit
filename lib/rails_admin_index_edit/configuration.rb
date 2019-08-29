@@ -6,7 +6,9 @@ module RailsAdminIndexEdit
 
     def options
       @options ||= {
-          fields: {}
+          fields: {},
+          add_link: false,
+          default_new_params: {}
       }.merge(config || {})
     end
 
@@ -27,7 +29,8 @@ module RailsAdminEmbedEdit
     def options
       @options ||= {
         embeds: [],
-        fields: {}
+        fields: {},
+        default_new_params: {}
       }.merge(config || {})
     end
 

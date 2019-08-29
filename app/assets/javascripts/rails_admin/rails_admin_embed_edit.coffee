@@ -53,4 +53,4 @@ $(document).delegate "form#embed_edit_form tr[data-object-id] td .input_block :i
 
 
 $(document).on "ajax:complete", "#embed_edit_add_link", (e, xhr)->
-  $("#embed_edit_table").html(xhr.responseText)
+  $(e.currentTarget.dataset.target).html(xhr.responseText)
